@@ -1,0 +1,25 @@
+from tkinter import *
+
+
+class AboutFrame(Frame):
+
+    def __init__(self, root):
+
+        super().__init__(root)
+        Label(self).pack()
+        Label(self, text="Author: @御河DE天街").pack()
+        Label(self, text="Bilibili: @御河DE天街FS").pack()
+        Label(self, text="Github: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX").pack()
+        Label(self).pack()
+        Label(self, text="Credits: ").pack()
+        Label(self, text="感谢刘老师(Bilibili: @WIFI连接超时)给我画出的大饼，不然我也不会改进(doge)").pack()
+        Label(self, text="感谢Alan提出的宝贵建议").pack()
+        Label(self).pack()
+        Label(self, text="Description: ").pack()
+        Label(self, text="这是一个MC物品小帮手, 可以帮助你整理投影材料列表，便于准备物资").pack()
+        Label(self, text="如果在全物品迷路，你也可以使用它查询你想要的物品所在的位置").pack()
+        Label(self, text="当仓库中物品发生变动时，你也可以相应地进行更新，以匹配仓库发生的变动").pack()
+        Label(self).pack()
+        Label(self).pack()
+        Label(self).pack()
+        Label(self, text="Copyrights@LSP_Hub, All Rights Reserved.").pack()
