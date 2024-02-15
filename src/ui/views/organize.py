@@ -50,7 +50,7 @@ class OrganizeFrame(Frame):
         绑定"确定"按钮
         """   
 
-        material_path = FilesIO.getSelectFile()
+        material_path: str = FilesIO.getSelectFile()
         storage_type = self.var.get()
 
         if storage_type == "":

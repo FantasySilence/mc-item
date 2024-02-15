@@ -23,7 +23,7 @@ class MaterialsOrg:
         run_log：运行日志，用于显示运行状态，例如：运行中，运行完成，运行错误等。
         """
 
-        self.material_data = FilesIO.getSelectFile()
+        self.material_data = material_data
         self.storage_type = storage_type
         self.tempres = FilesIO.getRootDir() + "temp.xlsx"
         self.run_log = run_log
