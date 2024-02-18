@@ -61,18 +61,6 @@ class Window:
         self.crudFrame.pack_forget()
         self.aboutFrame.pack_forget()
         view.pack()
-        # views = {
-        #     "organize": self.organizeFrame,
-        #     "locsearch": self.locsearchFrame,
-        #     "crud": self.crudFrame,
-        #     "about": self.aboutFrame,
-        # }
-        # print(type(view))
-        # for key in views:
-        #     if key == view:
-        #         views[key].pack()
-        #     else:
-        #         views[key].pack_forget()
 
 
     # ------ 显示主窗口 ------ #
