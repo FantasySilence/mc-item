@@ -19,7 +19,7 @@ class Window:
         # ------创建主窗口------ #
         self.root = Tk()
         self.root.title("MC物品小帮手")
-        self.root.geometry("600x400")
+        self.root.geometry("800x500")
         self.create_page()
     
 

@@ -34,7 +34,8 @@ class OrganizeFrame(Frame):
         Label(self, text="选择投影生成的材料列表文件：", font=("微软雅黑", 15)).grid(row=4, column=0, pady=10)
 
         # ------获取文件路径------ #
-        Button(self, text="选择文件", font=("微软雅黑", 15), command=self.button_function1).grid(row=5, column=0, pady=10)
+        Button(self, text="选择文件", font=("微软雅黑", 15), 
+               command=self.button_function1).grid(row=5, column=0, pady=10)
 
         # ------显示运行日志------ #
         Label(self).grid(row=6, column=0)

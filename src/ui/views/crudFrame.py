@@ -10,8 +10,8 @@ class CrudFrame(Frame):
         self.page = Frame()
         self.var = StringVar()
         self.item_name = StringVar()
-        self.run_log = StringVar()
-        self.run_log.set(" ")
+        self.run_log = "开发中..."
+        # self.run_log.set(" ")
         self.page.pack()
         self.create_page()
     
@@ -43,8 +43,21 @@ class CrudFrame(Frame):
         Entry(self, textvariable=self.item_name, font=("微软雅黑", 15), background="white").grid(row=6, column=1, pady=5)
  
         # ------显示运行日志------ #
-        Label(self).grid(row=6, column=0, pady=5)
-        Label(self, textvariable=self.run_log, font=("微软雅黑", 15)).grid(row=7, column=0, pady=5)
+        Label(self).grid(row=7, column=0, pady=5)
+        # Label(self, textvariable=self.run_log, font=("微软雅黑", 15)).grid(row=8, column=0, pady=5)
+        Label(self, text=self.run_log, font=("微软雅黑", 15)).grid(row=8, column=0, pady=5)
+
+        # ------查询按钮------ #
+        Button(self, text="查询", font=("微软雅黑", 15), command=self.button_function1).grid(row=9, column=0, pady=5)
 
         # ------退出按钮------ #
-        Button(self, text="退出", font=("微软雅黑", 15), command=self.quit).grid(row=7, column=1, pady=5)
+        Button(self, text="退出", font=("微软雅黑", 15), command=self.quit).grid(row=9, column=1, pady=5)
+    
+
+    def button_function1(self):
+
+        """
+        绑定"查询"按钮
+        """
+
+        pass
