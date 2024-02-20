@@ -1,9 +1,9 @@
 from tkinter import *
 
-from src.ui.views.organize import OrganizeFrame
-from src.ui.views.locSearch import LocSearchFrame
-from src.ui.views.crud import CrudFrame
-from src.ui.views.about import AboutFrame
+from src.ui.views.organizeFrame import OrganizeFrame
+from src.ui.views.locSearchFrame import LocSearchFrame
+from src.ui.views.crudFrame import CrudFrame
+from src.ui.views.aboutFrame import AboutFrame
 
 
 
