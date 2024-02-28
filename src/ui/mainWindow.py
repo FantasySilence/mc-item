@@ -1,69 +1,82 @@
-from tkinter import *
+import os
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 
 from src.ui.views.organizeFrame import OrganizeFrame
 from src.ui.views.locSearchFrame import LocSearchFrame
 from src.ui.views.crudFrame import CrudFrame
 from src.ui.views.aboutFrame import AboutFrame
 
+uiPATH = os.path.dirname(os.path.abspath(__file__))
+rootPATH = os.path.dirname(os.path.dirname(uiPATH))
+PATH = os.path.join(rootPATH, 'resources\\images')
 
 
-
-class Window:
+class MainWindow(ttk.Frame):
 
     """
-    实现主要功能的页面
+    加载主窗口
     """
 
-    def __init__(self):
+    def __init__(self, master):
         
-        # ------创建主窗口------ #
-        self.root = Tk()
-        self.root.title("MC物品小帮手")
-        self.root.geometry("800x500")
+        # ------ 创建主页面窗口的根容器 ------ #
+        super().__init__(master)
+        self.pack(fill=BOTH, expand=YES)
         self.create_page()
-    
 
+    
     def create_page(self):
 
-        # ------投影材料列表整理页面------ #
-        self.organizeFrame = OrganizeFrame(self.root)
+        """
+        创建画面
+        """
 
-        # ------查询物品在全物品的位置页面------ #
-        self.locsearchFrame = LocSearchFrame(self.root)
+        # ------ 加载图片 ------ #
+        self.images = [
+            ttk.PhotoImage(name="logo", 
+                           file=PATH  + "/logo.png"),
+        ]
 
-        # ------增删改查物品信息页面------ #
-        self.crudFrame = CrudFrame(self.root)
-        
-        # ------关于页面------ #
-        self.aboutFrame = AboutFrame(self.root)
+        # ------ 创建窗口标题的容器 ------ #
+        hdr_frame = ttk.Frame(self, padding=20, bootstyle=SECONDARY)
+        hdr_frame.pack(fill=BOTH, expand=YES)
 
-        # ------默认显示投影材料列表整理页面，不需要显示其他页面------ #
-        self.updateViews(self.organizeFrame)
+        # 向标题子容器中放入一幅logo图片
+        hdr_label = ttk.Label(
+            master=hdr_frame,
+            image='logo',
+            bootstyle=(INVERSE, SECONDARY)
+        )
+        hdr_label.pack(side=LEFT)
 
-        
-        # ------设置菜单选项------ #
-        menubar = Menu(self.root)
-        menubar.add_command(label="投影材料列表整理", 
-                            command=lambda: self.updateViews(self.organizeFrame))
-        menubar.add_command(label="查询物品在全物品的位置", 
-                            command=lambda: self.updateViews(self.locsearchFrame))
-        menubar.add_command(label="增删改查物品信息", 
-                            command=lambda: self.updateViews(self.crudFrame))
-        menubar.add_command(label="关于", 
-                            command=lambda: self.updateViews(self.aboutFrame))
-        self.root["menu"] = menubar
-    
-    
-    def updateViews(self, view: Frame):
-
-        self.organizeFrame.pack_forget()
-        self.locsearchFrame.pack_forget()
-        self.crudFrame.pack_forget()
-        self.aboutFrame.pack_forget()
-        view.pack()
+        # 向标题子容器中添加标题文字
+        logo_text = ttk.Label(
+            master=hdr_frame,
+            text='LSP物品管理系统',
+            font=('TkDefaultFixed', 30),
+            bootstyle=(INVERSE, SECONDARY)
+        )
+        logo_text.pack(side=LEFT, padx=8)
 
 
-    # ------ 显示主窗口 ------ #
-    def show(self):
-        self.root.mainloop()
+        # ------- 创建多选页面按钮容器 ------- #
+        notebook = ttk.Notebook(self, padding=(20, 0), bootstyle=INFO)
+        notebook.pack(fill=BOTH, expand=YES)
+
+        # 添加材料列表整理页面
+        organizeFrame = OrganizeFrame(notebook, padding=20)
+        notebook.add(organizeFrame, text='文件处理')
+
+        # 添加信息查询页面
+        locsearchFrame = LocSearchFrame(notebook, padding=20)
+        notebook.add(locsearchFrame, text='信息查询')
+
+        # 添加信息修改页面
+        crudFrame = CrudFrame(notebook, padding=20)
+        notebook.add(crudFrame, text='信息修改')
+
+        # 添加关于界面
+        aboutFrame = AboutFrame(notebook)
+        notebook.add(aboutFrame, text='关于')
         

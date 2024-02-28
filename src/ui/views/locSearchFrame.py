@@ -1,68 +1,157 @@
-from tkinter import *
-from tkinter import messagebox
+import time
+import threading
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from pathlib import Path
+
+PATH = Path(__file__).parent / "images"
 
 from src.modules.loc_check import ItemLocationCheck
 
-class LocSearchFrame(Frame):
 
-    def __init__(self, root):
 
-        super().__init__(root)
-        self.page = Frame()
-        self.var = StringVar()
-        self.item_name = StringVar()
-        self.run_log = StringVar()
-        self.run_log.set(" ")
-        self.page.pack()
-        self.create_page()
-    
+class LocSearchFrame(ttk.Frame):
 
-    def create_page(self):
+    """
+    物品位置信息
+    """
 
-        # ------标题栏------ #
-        Label(self, text="查询物品在全物品的位置").grid(row=0, column=0, sticky=W)
-        Label(self, text="选择你的仓库类型：", font=("微软雅黑", 15)).grid(row=1, column=0, pady=10)
+    def __init__(self, master, **kwargs):
 
-        # ------两个单选按钮，self.var获取选项------ #
-        Radiobutton(self, text="单分类全物品(single)", variable=self.var,  font=("微软雅黑", 15),
-                    value="single").grid(row=2, column=0, pady=10)
-        Radiobutton(self, text="多分类全物品(multi)", variable=self.var,  font=("微软雅黑", 15),
-                    value="multi").grid(row=2, column=1, pady=10)
-        
-        # ------标题栏------ #
-        Label(self).grid(row=3, column=0)
-        Label(self, text="输入物品名称：", font=("微软雅黑", 15)).grid(row=4, column=0, pady=10)
+        # ------ 设置窗口的根容器 ------ #
+        super().__init__(master, **kwargs)
+        self.pack(fill=BOTH, expand=YES)
+        self.storage_type = ttk.StringVar(value="single")
+        self.item_name = ttk.StringVar(value="填物品名字, 兄嘚...")
+        self.run_log = ttk.StringVar(value="勾八你倒是查呀，不查我显示个der...")
 
-        # ------输入物品名称------ #
-        Entry(self, textvariable=self.item_name, font=("微软雅黑", 15), background="white").grid(row=5, column=0, pady=10)
-        Button(self, text="确定", font=("微软雅黑", 15), command=self.button_function2).grid(row=5, column=1, pady=10)
 
-        # ------显示运行日志------ #
-        Label(self).grid(row=6, column=0)
-        Label(self, textvariable=self.run_log, font=("微软雅黑", 15)).grid(row=7, column=0)
+        # ------ 设置标签页面容器，存放交互逻辑 ------ #
+        option_text = "找不见物品?快来试试物品寻找吧！"
+        self.option_frame = ttk.Labelframe(self, text=option_text, padding=(40,10))
+        self.option_frame.pack(fill=BOTH, expand=YES, pady=0)
 
-        # ------退出按钮------ #
-        Button(self, text="退出", font=("微软雅黑", 15), command=self.quit).grid(row=7, column=1)
+        # 仓库类型选择UI的建立
+        self.create_storage_type_page()
+
+        # 物品名称填写UI的建立
+        self.create_name_entry_page()
+
+        # 运行信息显示
+        self.create_run_log_page()
 
     
-    def button_function2(self):
+    def create_storage_type_page(self):
 
         """
-        绑定"确定"按钮
-        """   
+        创建仓库类型选择交互UI
+        """
 
-        item_name = self.item_name.get()
-        storage_type = self.var.get()
+        # ------ 创建仓库类型选择页面容器 ------ #
+        type_row = ttk.Frame(self.option_frame)
+        type_row.pack(fill=X, expand=YES, pady=20)
+        type_lbl = ttk.Label(type_row, text="仓库类型", width=8)
+        type_lbl.pack(side=LEFT, padx=(15, 0))
 
-        # ------检查输入------ #
-        if item_name == "":
-            messagebox.showerror("错误", "请输入物品名称")
-            return
+        # 单选按钮，选择后仓库类型将变为单分类"single"
+        single_opt = ttk.Radiobutton(
+            master=type_row,
+            text="单分类全物品",
+            value="single",
+            variable=self.storage_type
+        )
+        single_opt.pack(side=LEFT)
+        single_opt.invoke()  # 默认选中单分类全物品按钮
+
+        # 单选按钮，选择后仓库类型将变为多分类"multi"
+        multi_opt = ttk.Radiobutton(
+            master=type_row,
+            text="多分类全物品",
+            value="multi",
+            variable=self.storage_type,
+        )
+        multi_opt.pack(side=LEFT, padx=15)
+
+
+    def create_name_entry_page(self):
+
+        """
+        创建物品名称填写UI
+        """
+
+        # ------ 创建物品名称填写页面容器 ------ #
+        name_entry_frame = ttk.Frame(self.option_frame)
+        name_entry_frame.pack(fill=X, expand=YES)
+
+        name_entry_label = ttk.Label(
+            master=name_entry_frame,
+            text="待查找的物品:",
+            width=12
+        )
+        name_entry_label.pack(side=LEFT, padx=(15, 0))
+
+        # 物品名输入框
+        name_entry = ttk.Entry(
+            master=name_entry_frame,
+            textvariable=self.item_name
+        )
+        name_entry.pack(side=LEFT, fill=X, expand=YES, padx=5)
+
+        # 确认按钮
+        confirm_button = ttk.Button(
+            master=name_entry_frame,
+            command=self.functionForConfirm,
+            text="确认",
+            bootstyle = (PRIMARY, OUTLINE),
+            width=6
+        )
+        confirm_button.pack(side=RIGHT, padx=5)
+
+
+    def create_run_log_page(self):
+
+        """
+        创建显示运行日志(结果)的文本框
+        """
+
+        # ------ 创建运行日志页面容器 ------ #
+        log_row = ttk.Frame(self.option_frame)
+        log_row.pack(fill=X, expand=YES, pady=20)
+
+        # 显示运行信息的文本框
+        log_text = ttk.Label(
+            master=log_row,
+            textvariable=self.run_log,
+        )
+        log_text.pack(fill=X, expand=YES)
+
+
+    def functionForConfirm(self):
+
+        """
+        创建物品填写交互UI时为按钮配置功能
+        """
+
+        t = threading.Thread(target=self._updateLog)
+        t.start()
         
-        elif storage_type == "":
-            messagebox.showerror("错误", "请选择仓库类型")
-            return
-        
-        else:
-            ItemLocationCheck(item_name, storage_type, self.run_log).Check()
-            self.item_name.set("")
+
+    def _updateLog(self):
+
+        """
+        实现运行信息的更新
+        """
+
+        storage_type_dict = {
+            "single": "单分类全物品",
+            "multi": "多分类全物品",
+        }
+        self.run_log.set("运行中...\n你的仓库类型为：{}\n你查询的物品为：{}"\
+                        .format(storage_type_dict[self.storage_type.get()], 
+                                self.item_name.get()))
+        ItemLocationCheck(
+            self.item_name.get(),
+            self.storage_type.get(),
+            self.run_log
+        ).Check()
+        self.item_name.set("")
