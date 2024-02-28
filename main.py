@@ -12,6 +12,6 @@ sys.path.append(src_path)
 from src.ui.mainWindow import MainWindow
 
 # 主程序入口
-root = ttk.Window()
+root = ttk.Window(title="v0.1.3")
 MainWindow(root)
 root.mainloop()
