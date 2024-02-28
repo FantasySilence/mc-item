@@ -17,10 +17,10 @@ class CrudFrame(ttk.Frame):
         self.pack(fill=BOTH, expand=YES)
         self.storage_type = ttk.StringVar(value="single")
         self.run_log = ttk.StringVar(value="6,全是null我拿命改是吧...")
-        self.item_name = ttk.StringVar()
-        self.item_class = ttk.StringVar()
-        self.item_loc = ttk.StringVar()
-        self.box_loc = ttk.StringVar()
+        self.item_name = ttk.StringVar(value="开发ing...")
+        self.item_class = ttk.StringVar(value="开发ing...")
+        self.item_loc = ttk.StringVar(value="开发ing...")
+        self.box_loc = ttk.StringVar(value="开发ing...")
 
         # ------ 设置标签页面容器，存放交互逻辑 ------ #
         option_text = "信息有误！！！快改！！！"
