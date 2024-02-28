@@ -1,3 +1,4 @@
+import time
 import threading
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
@@ -165,4 +166,5 @@ class OrganizeFrame(ttk.Frame):
         }
         self.run_log.set("运行中...\n你的仓库类型为：{}\n你的材料列表文件为：{}"\
                     .format(storage_type_dict[self.storage_type.get()], file_name))
+        time.sleep(1.5)
         MaterialsOrg(file_path, self.storage_type.get(), self.run_log).Organize()

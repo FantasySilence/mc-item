@@ -149,6 +149,7 @@ class LocSearchFrame(ttk.Frame):
         self.run_log.set("运行中...\n你的仓库类型为：{}\n你查询的物品为：{}"\
                         .format(storage_type_dict[self.storage_type.get()], 
                                 self.item_name.get()))
+        time.sleep(1.5)
         ItemLocationCheck(
             self.item_name.get(),
             self.storage_type.get(),
