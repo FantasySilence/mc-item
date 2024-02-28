@@ -54,7 +54,7 @@ class OrganizeFrame(ttk.Frame):
         path_row.pack(fill=X, expand=YES) 
 
         path_lbl = ttk.Label(path_row, text="选择文件：", width=8)
-        path_lbl.pack(side=LEFT, padx=(15, 0))
+        path_lbl.pack(side=LEFT)
 
         # 路径输入框
         path_ent = ttk.Entry(path_row, textvariable=self.path_var)
@@ -81,7 +81,7 @@ class OrganizeFrame(ttk.Frame):
         type_row = ttk.Frame(self.option_frame)
         type_row.pack(fill=X, expand=YES, pady=20)
         type_lbl = ttk.Label(type_row, text="仓库类型", width=8)
-        type_lbl.pack(side=LEFT, padx=(15, 0))
+        type_lbl.pack(side=LEFT)
 
         # 单选按钮，选择后仓库类型将变为单分类"single"
         single_opt = ttk.Radiobutton(

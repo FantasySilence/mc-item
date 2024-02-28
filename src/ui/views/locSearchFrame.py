@@ -49,9 +49,9 @@ class LocSearchFrame(ttk.Frame):
 
         # ------ 创建仓库类型选择页面容器 ------ #
         type_row = ttk.Frame(self.option_frame)
-        type_row.pack(fill=X, expand=YES, pady=20)
+        type_row.pack(fill=X, expand=YES)
         type_lbl = ttk.Label(type_row, text="仓库类型", width=8)
-        type_lbl.pack(side=LEFT, padx=(15, 0))
+        type_lbl.pack(side=LEFT)
 
         # 单选按钮，选择后仓库类型将变为单分类"single"
         single_opt = ttk.Radiobutton(
@@ -88,7 +88,7 @@ class LocSearchFrame(ttk.Frame):
             text="待查找的物品:",
             width=12
         )
-        name_entry_label.pack(side=LEFT, padx=(15, 0))
+        name_entry_label.pack(side=LEFT)
 
         # 物品名输入框
         name_entry = ttk.Entry(
