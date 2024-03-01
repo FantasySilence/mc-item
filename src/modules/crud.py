@@ -1,64 +1,61 @@
-import time
 import pandas as pd
-from tkinter import *
+import ttkbootstrap as ttk
 
-from src.common.const import idx_menu_single, idx_menu_multi
-
+from src.common.files_io import FilesIO
 
 
 class ItemAddDeleteCheckModify:
 
     """
-    实现物品数据库的增删查改
+    实现信息修改查询功能
     """
 
-    def __init__(self, item_dict:dict, storage_type:str, execution:str, run_log:StringVar):
+    def __init__(self, item_name: str, storage_type: str, run_log: ttk.StringVar):
 
         """
-        item_dict：待操作的物品，传入字典({xxx:[xx, xx, xx], yyy:[yy, yy, yy]......})
-        storage_type：仓库类型，单分类全物品(single)&多分类全物品(multi)
-        execution：执行的操作(add/delete/check/modify)
-        run_log：运行日志，用于显示运行状态，例如：运行中，运行完成，运行错误等
+        item_name：待操作的物品名称
+        storage_type：仓库类型
+        run_log：运行日志
         """
 
-        self.item_dict = item_dict
+        self.item_name = item_name
         self.storage_type = storage_type
-        self.execution = execution
         self.run_log = run_log
-        self.item_attribute = None
+
+
+    def quiry(self):
+
+        """
+        查询功能
+        """
+
+        # ------ 加载单分类全物品的数据库 ------ #
+        if self.storage_type == "single":
+            data = pd.read_excel(FilesIO.getSingleDB())
+            data = data.values
+            data_dict = {
+                data[i, 0]:[attr for attr in data[i, 1:]] for i in range(data.shape[0])
+            }
+
+        # ------ 加载多分类全物品的数据库 ------ #
+        elif self.storage_type == "multi":
+            data = pd.read_excel(FilesIO.getMultiDB())
+            data = data.values
+            data_dict = {
+                data[i, 0]:[attr for attr in data[i, 1:]] for i in range(data.shape[0])
+            }
+        if self.item_name in data_dict.keys():
+            return data_dict[self.item_name]
+        else:
+            self.run_log.set(f"查询失败，物品{self.item_name}不存在！")
+            return None
     
 
-    def execute(self):
+    def modify(self, item_class, item_loc, box_loc):
 
         """
-        执行操作
+        修改功能
         """
 
-    
+        pass
 
-    def __add__(self):
-
-        """
-        增加物品
-        """
-    
-
-    def __delete__(self):
-
-        """
-        删除物品
-        """
-    
-
-    def __check__(self):
-
-        """
-        查询物品
-        """
-    
-
-    def __modify__(self):
-
-        """
-        修改物品
-        """

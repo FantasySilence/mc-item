@@ -100,6 +100,7 @@ class CrudFrame(ttk.Frame):
         query_button = ttk.Button(
             master=input_row,
             text="查询",
+            command=self.functionForQuiry,
             bootstyle = (PRIMARY, OUTLINE),
             width=6
         )
@@ -154,4 +155,26 @@ class CrudFrame(ttk.Frame):
                 textvariable=self.run_log,
             )
             log_text.pack(fill=X, expand=YES)
+    
+
+    def functionForQuiry(self):
+         
+        """
+        查询按钮的功能配置
+        """
+
+        item_attr = ["self.item_class", "self.item_loc", "self.box_loc"]
+        for i in range(len(item_attr)):
+            exec(f"{item_attr[i]}.set('')")
+        if self.item_name.get() == "":
+            self.run_log.set("物品名称不能为空！！！")
+            return
+        attr_list = ItemAddDeleteCheckModify(
+             item_name=self.item_name.get(),
+             storage_type=self.storage_type.get(),
+             run_log=self.run_log
+        ).quiry()
+        for i in range(len(attr_list)):
+             exec(f"{item_attr[i]}.set(attr_list[i])")
+        self.run_log.set("查询成功")
         
