@@ -8,10 +8,9 @@ src_path = os.path.join(current_dir, 'src')
 sys.path.append(src_path)
 
 
-
 from src.ui.mainWindow import MainWindow
 
 # 主程序入口
-root = ttk.Window(title="v0.1.5")
+root = ttk.Window(title="v0.1.6")
 MainWindow(root)
 root.mainloop()
