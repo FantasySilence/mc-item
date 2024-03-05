@@ -1,6 +1,5 @@
 import os
 import sys
-import ttkbootstrap as ttk
 
 # 全局路径别名
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -11,6 +10,4 @@ sys.path.append(src_path)
 from src.ui.mainWindow import MainWindow
 
 # 主程序入口
-root = ttk.Window(title="v0.1.6")
-MainWindow(root)
-root.mainloop()
+MainWindow.show()

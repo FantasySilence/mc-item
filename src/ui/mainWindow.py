@@ -79,4 +79,16 @@ class MainWindow(ttk.Frame):
         # 添加关于界面
         aboutFrame = AboutFrame(notebook)
         notebook.add(aboutFrame, text='关于')
-        
+    
+
+    @staticmethod
+    def _show():
+
+        root = ttk.Window(title="v0.1.7")
+        MainWindow(root)
+        root.mainloop()
+    
+
+    @classmethod
+    def show(cls):
+        MainWindow._show()
